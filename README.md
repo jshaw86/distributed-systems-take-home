@@ -113,6 +113,8 @@ During each `POST /send` request, there's a probability that the same `x-session
 7. **Documentation**  
    Extend the bottom of this `README.md` file to include an explanation of your solution, rationale for architectural choices, and anomaly detection/enforcement strategies.
 
+8. **Deliverable**
+   Download this repository and publish it to a public repository you own under a different name. Do not fork since those are easily discoverable. Provide the link to your repository once completed.
 
 # Suggestions
 1. **Get something working first** 
