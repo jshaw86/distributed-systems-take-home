@@ -84,6 +84,9 @@ During each `POST /send` request, there's a probability that the same `x-session
    Develop a backend service to enforce the following rate limiting policies:
    - Maximum of **30 requests per minute** globally.
    - Maximum of **5 requests per minute** per session ID.
+   The backend should return a `429 Too Many Requests` status code when these limits are exceeded. The client will backoff and retry if it receives a `429` response.
+
+> **Note:** The client has a hard max of 20 total user ids, consider this when architecting the state for your solution. 
 
 2. **Scalability Consideration**  
    Deploy a second backend instance and ensure the rate-limiting policies still hold. Update the `SERVERS` environment variable in `docker-compose.yaml` with multiple backend instances:
@@ -93,7 +96,7 @@ During each `POST /send` request, there's a probability that the same `x-session
      - SERVERS=http://backend1:8080,http://backend2:8080
    ```
 
-   You may use a load balancer or let the client distribute requests across multiple backends.
+   You may use a load balancer, but the frontend was designed to accept multiple backends to simplify the infrastructure setup.
 
 3. **Anomaly Detection and Mitigation**  
    Identify and block suspicious request patterns based on changes in `x-ip-address` and `user-agent` for the same session ID.
@@ -102,11 +105,23 @@ During each `POST /send` request, there's a probability that the same `x-session
    Use any programming language, runtime, or framework as long as it functions within the Docker Compose environment. Running `docker-compose up --build` should work seamlessly.
 
 5. **External Dependencies**  
-   Any additional services or datastores must operate within an ~8GB memory footprint and integrate with the Docker setup.
+   Any additional services or datastores must operate within an ~8GB memory footprint and integrate with the `docker-compose` setup.
 
 6. **Immutable Client Code**  
-   The provided client code should be considered immutable. If you discover a bug, feel free to fix it or let us know but don't add/update the request with additional headers or data.
+   The provided client code should be considered immutable. If you discover a bug, feel free to fix it or let us know and we'll work with you to fix it. Don't add/update the request with additional headers or data.
 
 7. **Documentation**  
    Extend the bottom of this `README.md` file to include an explanation of your solution, rationale for architectural choices, and anomaly detection/enforcement strategies.
+
+
+# Suggestions
+1. **Get something working first** 
+    Start with the distributed rate limiting problem on a single instance and build out from there.
+2. **Don't build for massive scale**  
+    For this exercise we don't expect your solution to support millions of requests and users. In your README.md, explain how you would scale your solution 
+    if you had to support a much larger user base and request throughput. We like to see pragmatic solutions that can be iterated on.
+3. **Code Style, Testing and your time**
+   Code style, effective use of comments and testing are important but we understand your time is valuable and limited. Don't get bogged down if those considerations are adding too much time to the exercise.
+   We're more interested in a working solution and how you approach the problem. This project is designed to be completed in 2-4 hours depending on your experience level. If it's taking you longer than that
+   consider submitting your solution without the anomaly detection and mitigation portion and document in your README.md how you would have approached that section.
 
