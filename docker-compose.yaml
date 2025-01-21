@@ -1,0 +1,14 @@
+services:
+  echo-server:
+    image: ealen/echo-server
+    ports:
+      - "8000:80"
+  client:
+    build:
+      dockerfile: Dockerfile.client
+      context: .
+    environment:
+      - SERVERS=http://echo-server:80
+    depends_on:
+      - echo-server 
+

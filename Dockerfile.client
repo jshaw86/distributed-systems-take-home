@@ -1,0 +1,24 @@
+# Use official Golang image to build the binary
+FROM golang:1.21 AS builder
+
+# Set working directory
+WORKDIR /app
+# Copy source code
+COPY . .
+# Build the Go binary
+RUN go mod tidy && go build -o ./bin/client ./cmd/client
+RUN ls -la
+RUN ls -la bin
+CMD ["./bin/client"]
+
+# Create a minimal runtime image
+#FROM alpine:latest
+# Set working directory
+#WORKDIR /app
+# Copy the compiled binary from the builder
+#COPY --from=builder /app/bin/client client 
+#RUN ls -la
+# Make sure the binary is executable
+#RUN chmod +x ./client
+# Run the client
+
