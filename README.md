@@ -1,7 +1,8 @@
 # Project Overview
 
 ## Purpose
-This project aims to evaluate your ability to comprehend and make critical decisions within the domain of distributed systems.
+This project aims to evaluate your ability to comprehend and make critical decisions within the domain of distributed systems and to get you thinking about
+considerations around trust and safety as it pertains to rate limiting and anomaly detection. 
 
 ## Installing Docker
 To get started, install Docker by following the appropriate guide for your operating system:
